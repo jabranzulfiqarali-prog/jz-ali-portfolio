@@ -1398,7 +1398,7 @@ export default function PortfolioSite() {
               in the <span className="italic text-white/70">quiet</span> moments.
             </h1>
             <p className="text-white/60 text-base sm:text-lg leading-relaxed max-w-lg mb-10 font-light">
-              Original paintings and limited-edition prints of solitary figures and horses in motion — handcrafted in a studio in the hills, shipped worldwide.
+              Original paintings and limited-edition prints of solitary figures and horses in motion — handcrafted in a studio in Toronto, shipped worldwide.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <button
