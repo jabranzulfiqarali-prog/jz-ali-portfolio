@@ -408,10 +408,10 @@ const BG_IMAGES = {
   about: { src: "/images/bg-about.jpg", label: "Studio Wall, No. 4" },
   contact: { src: "/images/bg-contact.jpg", label: "Studio Wall, No. 5" },
 };
-const SECTION_IDS = ["hero", "gallery", "commission", "about", "contact"];
+const SECTION_IDS = ["hero", "gallery", "about", "contact"];
 
 
-const CONTACT_EMAIL = "inquire@jzali.art";
+const CONTACT_EMAIL = "jza@jzalistudio.com";
 
 // Sorted strictly alphabetically by country name
 const COUNTRY_CODES = [
@@ -813,8 +813,8 @@ function CountryCodeSelect({ value, onChange }) {
     const handleOutside = (e) => {
       if (wrapRef.current && !wrapRef.current.contains(e.target)) setOpen(false);
     };
-    document.addEventListener("mousedown", handleOutside);
-    return () => document.removeEventListener("mousedown", handleOutside);
+    document.addEventListener("pointerdown", handleOutside);
+    return () => document.removeEventListener("pointerdown", handleOutside);
   }, []);
 
   return (
@@ -938,7 +938,7 @@ function GalleryCard({ art, height, fixedWidth, onOpen }) {
               e.stopPropagation();
               onOpen(art);
             }}
-            className="inline-flex items-center gap-1.5 border border-white/40 text-white text-[10px] tracking-[0.15em] uppercase px-3 py-2 opacity-0 group-hover:opacity-100 hover:bg-white hover:text-black transition-all duration-300"
+            className="inline-flex items-center gap-1.5 border border-white/40 text-white text-[10px] tracking-[0.15em] uppercase px-3 py-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 hover:bg-white hover:text-black transition-all duration-300"
           >
             <Eye size={12} /> Quick View
           </button>
@@ -1013,7 +1013,7 @@ function ArtworkInspector({ art, onClose, onPrev, onNext, onAddToCart }) {
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 w-9 h-9 flex items-center justify-center bg-black/80 border border-white/20 hover:border-white transition-colors"
+          className="absolute top-4 right-4 z-10 w-11 h-11 sm:w-9 sm:h-9 flex items-center justify-center bg-black/80 border border-white/20 hover:border-white transition-colors"
         >
           <X size={16} className="text-white" />
         </button>
@@ -1043,7 +1043,7 @@ function ArtworkInspector({ art, onClose, onPrev, onNext, onAddToCart }) {
                 backgroundRepeat: "no-repeat",
               }}
             />
-            <span className="absolute top-4 right-4 text-white/40 text-[10px] tracking-[0.15em] uppercase flex items-center gap-1.5">
+            <span className="hidden sm:flex absolute top-4 right-4 text-white/40 text-[10px] tracking-[0.15em] uppercase items-center gap-1.5">
               <ZoomIn size={12} /> Hover to inspect
             </span>
           </div>
@@ -1076,7 +1076,7 @@ function ArtworkInspector({ art, onClose, onPrev, onNext, onAddToCart }) {
         </div>
 
         {/* details */}
-        <div className="p-8 sm:p-10 flex flex-col">
+        <div className="p-6 sm:p-10 flex flex-col">
           <span className="text-white/50 text-xs tracking-[0.25em] uppercase mb-2">
             {art.category} &middot; {art.year}
           </span>
@@ -1138,6 +1138,7 @@ export default function PortfolioSite() {
   const [selectedId, setSelectedId] = useState(null);
   const [cart, setCart] = useState([]);
   const [cartOpen, setCartOpen] = useState(false);
+  const [commissionOpen, setCommissionOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [scrollY, setScrollY] = useState(0);
@@ -1339,7 +1340,11 @@ export default function PortfolioSite() {
 
           <nav className="hidden md:flex items-center gap-10 text-sm tracking-[0.15em] uppercase text-white/60">
             {["Gallery", "Commission", "About", "Contact"].map((label) => (
-              <button key={label} onClick={() => scrollTo(label.toLowerCase())} className="relative py-1 hover:text-white transition-colors duration-300 group">
+              <button
+                key={label}
+                onClick={() => (label === "Commission" ? setCommissionOpen(true) : scrollTo(label.toLowerCase()))}
+                className="relative py-1 hover:text-white transition-colors duration-300 group"
+              >
                 {label}
                 <span className="absolute left-0 -bottom-0.5 h-px w-0 bg-white transition-all duration-300 group-hover:w-full" />
               </button>
@@ -1368,7 +1373,14 @@ export default function PortfolioSite() {
         <div className={`md:hidden overflow-hidden transition-all duration-300 ${menuOpen ? "max-h-64 opacity-100 mt-4" : "max-h-0 opacity-0"}`}>
           <div className="px-6 pb-4 flex flex-col gap-4 text-sm tracking-[0.15em] uppercase text-white/60 border-t border-white/10 pt-4">
             {["Gallery", "Commission", "About", "Contact"].map((label) => (
-              <button key={label} onClick={() => scrollTo(label.toLowerCase())} className="text-left hover:text-white transition-colors">
+              <button
+                key={label}
+                onClick={() => {
+                  setMenuOpen(false);
+                  label === "Commission" ? setCommissionOpen(true) : scrollTo(label.toLowerCase());
+                }}
+                className="text-left hover:text-white transition-colors"
+              >
                 {label}
               </button>
             ))}
@@ -1380,17 +1392,13 @@ export default function PortfolioSite() {
       <section id="hero" className="relative z-10 min-h-screen flex items-center">
         <div className="max-w-7xl mx-auto px-6 lg:px-10 pt-24 pb-16 w-full">
           <div className="max-w-2xl animate-fadeUp">
-            <div className="flex items-center gap-2 mb-6 text-white/70 text-xs tracking-[0.3em] uppercase">
-              <Sparkles size={14} />
-              <span>JZ Ali</span>
-            </div>
             <h1 className="serif-heading text-5xl sm:text-6xl lg:text-7xl leading-[1.05] text-white mb-6">
               Art that lives
               <br />
               in the <span className="italic text-white/70">quiet</span> moments.
             </h1>
             <p className="text-white/60 text-base sm:text-lg leading-relaxed max-w-lg mb-10 font-light">
-              Original paintings and limited-edition prints of solitary figures and horses in motion — handcrafted in a studio in the hills, shipped worldwide.
+              Original paintings and limited-edition prints of solitary figures and horses in motion — handcrafted in a Toronto studio, shipped worldwide.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <button
@@ -1401,7 +1409,7 @@ export default function PortfolioSite() {
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </button>
               <button
-                onClick={() => scrollTo("commission")}
+                onClick={() => setCommissionOpen(true)}
                 className="inline-flex items-center justify-center gap-2 border border-white/40 text-white px-8 py-4 text-sm tracking-[0.15em] uppercase font-medium hover:border-white hover:bg-white/5 transition-all duration-300"
               >
                 Commission Artwork
@@ -1515,118 +1523,14 @@ export default function PortfolioSite() {
               ))}
             </div>
             <p className="text-center text-white/30 text-[11px] tracking-[0.2em] uppercase mt-2">
-              Hover to pause &middot; Drag to browse
+              <span className="sm:hidden">Swipe to browse</span>
+              <span className="hidden sm:inline">Hover to pause &middot; Drag to browse</span>
             </p>
           </div>
         )}
       </section>
 
       {/* ---------------- COMMISSION ---------------- */}
-      <section id="commission" className="relative z-10 border-y border-white/10">
-        <div className="max-w-7xl mx-auto px-6 lg:px-10 py-24 lg:py-32">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-white/50 text-xs tracking-[0.3em] uppercase">Bespoke Work</span>
-            <h2 className="serif-heading text-4xl sm:text-5xl text-white mt-3 mb-5">Commission a Piece</h2>
-            <p className="text-white/60 font-light leading-relaxed mb-6">
-              Every commission is a collaboration — a piece made for your space, your story, and no one else's.
-            </p>
-            <span className="inline-flex items-center gap-2 border border-white/20 rounded-full px-4 py-1.5 text-[10px] tracking-[0.2em] uppercase text-white/60">
-              <Globe size={12} /> Ships Worldwide from Toronto, Canada
-            </span>
-          </div>
-
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6 mb-20">
-            {PROCESS_STEPS.map((step, idx) => (
-              <div key={step.n} className="relative">
-                <span className="serif-heading text-5xl text-white/15">{step.n}</span>
-                <h3 className="serif-heading text-xl text-white mt-2 mb-2">{step.title}</h3>
-                <p className="text-white/50 text-sm leading-relaxed font-light">{step.desc}</p>
-                {idx < PROCESS_STEPS.length - 1 && <div className="hidden lg:block absolute top-6 -right-3 w-6 h-px bg-white/15" />}
-              </div>
-            ))}
-          </div>
-
-          <div className="max-w-3xl mx-auto bg-black/50 border border-white/15 backdrop-blur-md p-8 sm:p-10">
-            {formStatus === "done" ? (
-              <div className="text-center py-10">
-                <div className="w-14 h-14 mx-auto mb-5 rounded-full border border-white/30 flex items-center justify-center">
-                  <Sparkles size={22} className="text-white" />
-                </div>
-                <h3 className="serif-heading text-2xl text-white mb-2">Request received</h3>
-                <p className="text-white/60 font-light">Thank you — expect a reply within two business days to discuss your vision.</p>
-                <button
-                  onClick={() => setFormStatus("idle")}
-                  className="mt-6 text-xs tracking-[0.15em] uppercase text-white border-b border-white/40 pb-1 hover:border-white"
-                >
-                  Submit another request
-                </button>
-              </div>
-            ) : (
-              <form onSubmit={handleCommissionSubmit} className="space-y-6">
-                <div className="grid sm:grid-cols-2 gap-6">
-                  <Field label="Full Name" required>
-                    <input type="text" required placeholder="Jane Whitfield" className="lux-input" />
-                  </Field>
-                  <Field label="Email Address" required>
-                    <input type="email" required placeholder="jane@email.com" className="lux-input" />
-                  </Field>
-                </div>
-
-                <Field label="Phone Number" required>
-                  <div className="flex items-stretch gap-2">
-                    <CountryCodeSelect value={phoneCountry} onChange={setPhoneCountry} />
-                    <input type="tel" required placeholder="416 555 0192" className="lux-input flex-1" />
-                  </div>
-                </Field>
-
-                <div className="grid sm:grid-cols-2 gap-6">
-                  <Field label="Budget Range">
-                    <select className="lux-input" defaultValue="">
-                      <option value="" disabled>
-                        Select a range
-                      </option>
-                      <option>Up to $1,000 CAD</option>
-                      <option>$1,000 – $2,500 CAD</option>
-                      <option>$2,500 – $5,000 CAD</option>
-                      <option>$5,000+ CAD</option>
-                    </select>
-                  </Field>
-                  <Field label="Size / Medium Preference">
-                    <input type="text" placeholder='e.g. 36" x 48", oil on canvas' className="lux-input" />
-                  </Field>
-                </div>
-
-                <Field label="Project Vision">
-                  <textarea
-                    rows={4}
-                    placeholder="Tell me about the space, mood, colors, or story you'd like the piece to capture..."
-                    className="lux-input resize-none"
-                  />
-                </Field>
-
-                <div>
-                  <label className="block text-xs tracking-[0.15em] uppercase text-white/60 mb-2">Reference Images (optional)</label>
-                  <div className="border border-dashed border-white/25 hover:border-white/60 transition-colors duration-300 rounded-sm p-8 text-center cursor-pointer">
-                    <Upload size={20} className="mx-auto mb-3 text-white/70" />
-                    <p className="text-sm text-white/60">Drag files here or click to browse</p>
-                    <p className="text-xs text-white/30 mt-1">PNG, JPG up to 10MB</p>
-                  </div>
-                </div>
-
-                <button
-                  type="submit"
-                  disabled={formStatus === "submitting"}
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white text-black px-10 py-4 text-sm tracking-[0.15em] uppercase font-medium hover:bg-white/85 transition-all duration-300 disabled:opacity-60"
-                >
-                  {formStatus === "submitting" ? "Sending..." : "Submit Request"}
-                  {formStatus !== "submitting" && <ArrowRight size={16} />}
-                </button>
-              </form>
-            )}
-          </div>
-        </div>
-      </section>
-
       {/* ---------------- ABOUT ---------------- */}
       <section id="about" className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 py-24 lg:py-32">
         <div className="grid lg:grid-cols-2 gap-16 items-center">
@@ -1691,9 +1595,8 @@ export default function PortfolioSite() {
             </div>
           </div>
 
-          <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/35">
+          <div className="pt-8 border-t border-white/10 flex items-center justify-center gap-4 text-xs text-white/35">
             <p>&copy; {new Date().getFullYear()} JZ Ali. All rights reserved.</p>
-            <p>Prototype design — built with React &amp; Tailwind CSS.</p>
           </div>
         </div>
       </footer>
@@ -1701,6 +1604,128 @@ export default function PortfolioSite() {
       {/* ---------------- LIGHTBOX / ARTWORK INSPECTOR ---------------- */}
       {selectedArt && (
         <ArtworkInspector art={selectedArt} onClose={closeLightbox} onPrev={goPrev} onNext={goNext} onAddToCart={addToCart} />
+      )}
+
+      {/* ---------------- COMMISSION MODAL ---------------- */}
+      {commissionOpen && (
+        <div className="fixed inset-0 z-50 overflow-y-auto">
+          <div className="absolute inset-0 bg-black/85 backdrop-blur-sm" onClick={() => setCommissionOpen(false)} />
+          <div className="relative min-h-full flex items-start sm:items-center justify-center p-4 sm:p-8">
+            <div className="relative w-full max-w-3xl bg-[#0a0a0a] border border-white/15 my-8 animate-fadeUp">
+              <button
+                onClick={() => setCommissionOpen(false)}
+                aria-label="Close"
+                className="absolute top-4 right-4 z-10 w-11 h-11 sm:w-9 sm:h-9 flex items-center justify-center bg-black/80 border border-white/20 hover:border-white transition-colors"
+              >
+                <X size={18} className="text-white" />
+              </button>
+
+              <div className="p-6 sm:p-10 pt-14 sm:pt-16">
+                <div className="text-center max-w-2xl mx-auto mb-12">
+                  <span className="text-white/50 text-xs tracking-[0.3em] uppercase">Bespoke Work</span>
+                  <h2 className="serif-heading text-4xl sm:text-5xl text-white mt-3 mb-5">Commission a Piece</h2>
+                  <p className="text-white/60 font-light leading-relaxed mb-6">
+                    Every commission is a collaboration — a piece made for your space, your story, and no one else's.
+                  </p>
+                  <span className="inline-flex items-center gap-2 border border-white/20 rounded-full px-4 py-1.5 text-[10px] tracking-[0.2em] uppercase text-white/60">
+                    <Globe size={12} /> Ships Worldwide from Toronto, Canada
+                  </span>
+                </div>
+
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-6 mb-16">
+                  {PROCESS_STEPS.map((step, idx) => (
+                    <div key={step.n} className="relative">
+                      <span className="serif-heading text-5xl text-white/15">{step.n}</span>
+                      <h3 className="serif-heading text-xl text-white mt-2 mb-2">{step.title}</h3>
+                      <p className="text-white/50 text-sm leading-relaxed font-light">{step.desc}</p>
+                      {idx < PROCESS_STEPS.length - 1 && <div className="hidden lg:block absolute top-6 -right-3 w-6 h-px bg-white/15" />}
+                    </div>
+                  ))}
+                </div>
+
+                {formStatus === "done" ? (
+                  <div className="text-center py-10">
+                    <div className="w-14 h-14 mx-auto mb-5 rounded-full border border-white/30 flex items-center justify-center">
+                      <Sparkles size={22} className="text-white" />
+                    </div>
+                    <h3 className="serif-heading text-2xl text-white mb-2">Request received</h3>
+                    <p className="text-white/60 font-light">Thank you — expect a reply within two business days to discuss your vision.</p>
+                    <button
+                      onClick={() => setFormStatus("idle")}
+                      className="mt-6 text-xs tracking-[0.15em] uppercase text-white border-b border-white/40 pb-1 hover:border-white"
+                    >
+                      Submit another request
+                    </button>
+                  </div>
+                ) : (
+                  <form onSubmit={handleCommissionSubmit} className="space-y-6">
+                    <div className="grid sm:grid-cols-2 gap-6">
+                      <Field label="Full Name" required>
+                        <input type="text" required placeholder="Jane Whitfield" className="lux-input" />
+                      </Field>
+                      <Field label="Email Address" required>
+                        <input type="email" required placeholder="jane@email.com" className="lux-input" />
+                      </Field>
+                    </div>
+
+                    <Field label="Phone Number" required>
+                      <div className="flex items-stretch gap-2">
+                        <CountryCodeSelect value={phoneCountry} onChange={setPhoneCountry} />
+                        <input type="tel" required placeholder="416 555 0192" className="lux-input flex-1" />
+                      </div>
+                    </Field>
+
+                    <div className="grid sm:grid-cols-2 gap-6">
+                      <Field label="Budget Range">
+                        <select className="lux-input" defaultValue="">
+                          <option value="" disabled>
+                            Select a range
+                          </option>
+                          <option>Up to $1,000 CAD</option>
+                          <option>$1,000 – $2,500 CAD</option>
+                          <option>$2,500 – $5,000 CAD</option>
+                          <option>$5,000+ CAD</option>
+                        </select>
+                      </Field>
+                      <Field label="Size / Medium Preference">
+                        <input type="text" placeholder='e.g. 36" x 48", oil on canvas' className="lux-input" />
+                      </Field>
+                    </div>
+
+                    <Field label="Project Vision">
+                      <textarea
+                        rows={4}
+                        placeholder="Tell me about the space, mood, colors, or story you'd like the piece to capture..."
+                        className="lux-input resize-none"
+                      />
+                    </Field>
+
+                    <div>
+                      <label className="block text-xs tracking-[0.15em] uppercase text-white/60 mb-2">Reference Images (optional)</label>
+                      <div className="border border-dashed border-white/25 hover:border-white/60 transition-colors duration-300 rounded-sm p-6 sm:p-8 text-center cursor-pointer">
+                        <Upload size={20} className="mx-auto mb-3 text-white/70" />
+                        <p className="text-sm text-white/60">
+                          <span className="sm:hidden">Tap to add photos</span>
+                          <span className="hidden sm:inline">Drag files here or click to browse</span>
+                        </p>
+                        <p className="text-xs text-white/30 mt-1">PNG, JPG up to 10MB</p>
+                      </div>
+                    </div>
+
+                    <button
+                      type="submit"
+                      disabled={formStatus === "submitting"}
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 bg-white text-black px-10 py-4 text-sm tracking-[0.15em] uppercase font-medium hover:bg-white/85 transition-all duration-300 disabled:opacity-60"
+                    >
+                      {formStatus === "submitting" ? "Sending..." : "Submit Request"}
+                      {formStatus !== "submitting" && <ArrowRight size={16} />}
+                    </button>
+                  </form>
+                )}
+              </div>
+            </div>
+          </div>
+        </div>
       )}
 
       {/* ---------------- CART DRAWER ---------------- */}
@@ -1751,11 +1776,11 @@ export default function PortfolioSite() {
                       <p className="text-xs text-white/40 mb-2">{item.medium}</p>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center border border-white/20">
-                          <button onClick={() => updateQty(item.id, -1)} className="w-7 h-7 flex items-center justify-center hover:bg-white/10 text-white/70">
+                          <button onClick={() => updateQty(item.id, -1)} className="w-8 h-8 flex items-center justify-center hover:bg-white/10 text-white/70">
                             <Minus size={12} />
                           </button>
                           <span className="w-8 text-center text-sm text-white">{item.qty}</span>
-                          <button onClick={() => updateQty(item.id, 1)} className="w-7 h-7 flex items-center justify-center hover:bg-white/10 text-white/70">
+                          <button onClick={() => updateQty(item.id, 1)} className="w-8 h-8 flex items-center justify-center hover:bg-white/10 text-white/70">
                             <Plus size={12} />
                           </button>
                         </div>
