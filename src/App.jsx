@@ -1132,6 +1132,118 @@ function ArtworkInspector({ art, onClose, onPrev, onNext, onAddToCart }) {
 // -----------------------------
 // Root Component
 // -----------------------------
+// -----------------------------
+// Reveal-on-scroll wrapper — fades + rises each gallery item into place,
+// staggered by its position in the grid
+// -----------------------------
+function RevealItem({ children, index = 0 }) {
+  const [ref, shown] = useRevealOnScroll();
+  const delay = Math.min((index % 9) * 90, 640);
+  return (
+    <div
+      ref={ref}
+      className={`transition-all ease-out duration-700 ${shown ? "opacity-100 translate-y-0" : "opacity-0 translate-y-10"}`}
+      style={{ transitionDelay: shown ? `${delay}ms` : "0ms" }}
+    >
+      {children}
+    </div>
+  );
+}
+
+// -----------------------------
+// Dedicated full gallery page — the complete collection, masonry-style,
+// with staggered reveal animation and filterable by category
+// -----------------------------
+const GALLERY_CARD_HEIGHTS = [420, 500, 460, 540, 400, 480];
+
+function GalleryPage({ artworks, filter, setFilter, onOpen, onBack }) {
+  const [headerRef, headerShown] = useRevealOnScroll();
+
+  useEffect(() => {
+    document.title = "The Collection | JZ Ali";
+    return () => {
+      document.title = "JZ Ali | Original Paintings";
+    };
+  }, []);
+
+  return (
+    <div className="relative z-10 min-h-screen bg-black animate-fadeUp">
+      <div className="fixed inset-0 z-0 overflow-hidden bg-black pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0e0e0e] via-black to-black" />
+        <div
+          className="absolute inset-0 opacity-[0.04]"
+          style={{
+            backgroundImage:
+              "repeating-linear-gradient(45deg, rgba(255,255,255,0.4) 0, rgba(255,255,255,0.4) 1px, transparent 1px, transparent 10px)",
+          }}
+        />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pt-28 sm:pt-36 pb-28">
+        <button
+          onClick={onBack}
+          className="inline-flex items-center gap-2 text-white/50 hover:text-white text-xs tracking-[0.2em] uppercase mb-12 transition-colors duration-300 group"
+        >
+          <ArrowRight size={13} className="rotate-180 group-hover:-translate-x-1 transition-transform" />
+          Back to Home
+        </button>
+
+        <div
+          ref={headerRef}
+          className={`text-center max-w-2xl mx-auto mb-16 transition-all duration-700 ease-out ${
+            headerShown ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+          }`}
+        >
+          <span className="text-white/50 text-xs tracking-[0.3em] uppercase">The Complete Collection</span>
+          <h1 className="serif-heading text-5xl sm:text-6xl lg:text-7xl text-white mt-4 leading-[1.05]">The Gallery</h1>
+          <p className="text-white/50 font-light leading-relaxed mt-6 max-w-lg mx-auto">
+            Every original painting and limited-edition print, in one place — from monochrome figure studies to
+            gold-leaf still lifes. Click a piece to inspect it closely.
+          </p>
+        </div>
+
+        <div className="flex flex-wrap justify-center gap-2 mb-16">
+          {FILTERS.map((f) => (
+            <button
+              key={f}
+              onClick={() => setFilter(f)}
+              className={`px-5 py-2 text-xs tracking-[0.15em] uppercase rounded-full border transition-all duration-300 ${
+                filter === f ? "bg-white text-black border-white" : "border-white/20 text-white/60 hover:border-white/60 hover:text-white"
+              }`}
+            >
+              {f}
+            </button>
+          ))}
+        </div>
+
+        {artworks.length === 0 ? (
+          <p className="text-center text-white/50 py-24">No pieces match this filter yet.</p>
+        ) : (
+          <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 [column-fill:_balance]">
+            {artworks.map((art, i) => (
+              <RevealItem key={art.id} index={i}>
+                <div className="mb-6 break-inside-avoid">
+                  <GalleryCard art={art} onOpen={onOpen} height={GALLERY_CARD_HEIGHTS[i % GALLERY_CARD_HEIGHTS.length]} />
+                </div>
+              </RevealItem>
+            ))}
+          </div>
+        )}
+
+        <div className="mt-24 pt-10 border-t border-white/10 flex flex-col items-center gap-4 text-center">
+          <p className="text-white/40 text-sm font-light">Looking for something made just for you?</p>
+          <button
+            onClick={onBack}
+            className="inline-flex items-center gap-2 border border-white/40 text-white px-8 py-3.5 text-xs tracking-[0.2em] uppercase font-medium hover:border-white hover:bg-white/5 transition-all duration-300"
+          >
+            Enquire About a Commission
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function PortfolioSite() {
   const [filter, setFilter] = useState("All Works");
   const [galleryView, setGalleryView] = useState("slide"); // "slide" | "grid"
@@ -1139,6 +1251,40 @@ export default function PortfolioSite() {
   const [cart, setCart] = useState([]);
   const [cartOpen, setCartOpen] = useState(false);
   const [commissionOpen, setCommissionOpen] = useState(false);
+  const [view, setView] = useState(() => (window.location.pathname.startsWith("/gallery") ? "gallery" : "home"));
+  const pendingScrollRef = useRef(null);
+
+  const navigate = (path, nextView, scrollTarget) => {
+    window.history.pushState({}, "", path);
+    setView(nextView);
+    setMenuOpen(false);
+    if (scrollTarget) {
+      pendingScrollRef.current = scrollTarget;
+    } else {
+      window.scrollTo({ top: 0, behavior: "instant" in window ? "instant" : "auto" });
+    }
+  };
+
+  useEffect(() => {
+    const onPopState = () => {
+      setView(window.location.pathname.startsWith("/gallery") ? "gallery" : "home");
+    };
+    window.addEventListener("popstate", onPopState);
+    return () => window.removeEventListener("popstate", onPopState);
+  }, []);
+
+  // After navigating back to the home view, honor any pending scroll target
+  // (e.g. "About" clicked while on the Gallery page)
+  useEffect(() => {
+    if (view === "home" && pendingScrollRef.current) {
+      const id = pendingScrollRef.current;
+      pendingScrollRef.current = null;
+      requestAnimationFrame(() => {
+        const el = document.getElementById(id);
+        if (el) el.scrollIntoView({ behavior: "smooth" });
+      });
+    }
+  }, [view]);
   const [menuOpen, setMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [scrollY, setScrollY] = useState(0);
@@ -1187,7 +1333,7 @@ export default function PortfolioSite() {
       if (el) observer.observe(el);
     });
     return () => observer.disconnect();
-  }, []);
+  }, [view]);
 
   useEffect(() => {
     if (!toast) return;
@@ -1310,22 +1456,24 @@ export default function PortfolioSite() {
         .animate-fadeUp { animation: fadeUp 0.7s ease forwards; }
       `}</style>
 
-      {/* ---------------- SCROLL-DRIVEN PARALLAX BACKGROUND ---------------- */}
-      <div className="fixed inset-0 z-0 overflow-hidden bg-black">
-        {SECTION_IDS.map((id) => (
-          <BackgroundLayer
-            key={id}
-            src={BG_IMAGES[id].src}
-            label={BG_IMAGES[id].label}
-            active={activeSection === id}
-            scrollY={scrollY}
-            opacity={id === "hero" ? 0.8 : 0.5}
-          />
-        ))}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black" />
-        <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60" />
-        <div className="absolute inset-0 backdrop-blur-[1px]" />
-      </div>
+      {view === "home" && (
+        <div className="fixed inset-0 z-0 overflow-hidden bg-black">
+          {/* ---------------- SCROLL-DRIVEN PARALLAX BACKGROUND ---------------- */}
+          {SECTION_IDS.map((id) => (
+            <BackgroundLayer
+              key={id}
+              src={BG_IMAGES[id].src}
+              label={BG_IMAGES[id].label}
+              active={activeSection === id}
+              scrollY={scrollY}
+              opacity={id === "hero" ? 0.8 : 0.5}
+            />
+          ))}
+          <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/70 to-black" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black/60" />
+          <div className="absolute inset-0 backdrop-blur-[1px]" />
+        </div>
+      )}
 
       {/* ---------------- NAVBAR ---------------- */}
       <header
@@ -1334,7 +1482,10 @@ export default function PortfolioSite() {
         }`}
       >
         <div className="max-w-7xl mx-auto px-6 lg:px-10 flex items-center justify-between">
-          <button onClick={() => scrollTo("hero")} className="serif-heading text-xl md:text-2xl tracking-wide text-white">
+          <button
+            onClick={() => (view !== "home" ? navigate("/", "home") : scrollTo("hero"))}
+            className="serif-heading text-xl md:text-2xl tracking-wide text-white"
+          >
             JZ Ali
           </button>
 
@@ -1342,7 +1493,12 @@ export default function PortfolioSite() {
             {["Gallery", "Commission", "About", "Contact"].map((label) => (
               <button
                 key={label}
-                onClick={() => (label === "Commission" ? setCommissionOpen(true) : scrollTo(label.toLowerCase()))}
+                onClick={() => {
+                  if (label === "Commission") return setCommissionOpen(true);
+                  if (label === "Gallery") return navigate("/gallery", "gallery");
+                  if (view !== "home") return navigate("/", "home", label.toLowerCase());
+                  return scrollTo(label.toLowerCase());
+                }}
                 className="relative py-1 hover:text-white transition-colors duration-300 group"
               >
                 {label}
@@ -1377,7 +1533,10 @@ export default function PortfolioSite() {
                 key={label}
                 onClick={() => {
                   setMenuOpen(false);
-                  label === "Commission" ? setCommissionOpen(true) : scrollTo(label.toLowerCase());
+                  if (label === "Commission") return setCommissionOpen(true);
+                  if (label === "Gallery") return navigate("/gallery", "gallery");
+                  if (view !== "home") return navigate("/", "home", label.toLowerCase());
+                  return scrollTo(label.toLowerCase());
                 }}
                 className="text-left hover:text-white transition-colors"
               >
@@ -1388,6 +1547,8 @@ export default function PortfolioSite() {
         </div>
       </header>
 
+      {view === "home" && (
+      <>
       {/* ---------------- HERO ---------------- */}
       <section id="hero" className="relative z-10 min-h-screen flex items-center">
         <div className="max-w-7xl mx-auto px-6 lg:px-10 pt-24 pb-16 w-full">
@@ -1398,11 +1559,11 @@ export default function PortfolioSite() {
               in the <span className="italic text-white/70">quiet</span> moments.
             </h1>
             <p className="text-white/60 text-base sm:text-lg leading-relaxed max-w-lg mb-10 font-light">
-              Original paintings and limited-edition prints of solitary figures and horses in motion — handcrafted in a studio in Toronto, shipped worldwide.
+              Original paintings and limited-edition prints of solitary figures and horses in motion — handcrafted in a Toronto studio, shipped worldwide.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <button
-                onClick={() => scrollTo("gallery")}
+                onClick={() => navigate("/gallery", "gallery")}
                 className="group inline-flex items-center justify-center gap-2 bg-white text-black px-8 py-4 text-sm tracking-[0.15em] uppercase font-medium hover:bg-white/85 transition-all duration-300"
               >
                 View Gallery
@@ -1600,6 +1761,18 @@ export default function PortfolioSite() {
           </div>
         </div>
       </footer>
+      </>
+      )}
+
+      {view === "gallery" && (
+        <GalleryPage
+          artworks={filteredArt}
+          filter={filter}
+          setFilter={setFilter}
+          onOpen={openLightbox}
+          onBack={() => navigate("/", "home")}
+        />
+      )}
 
       {/* ---------------- LIGHTBOX / ARTWORK INSPECTOR ---------------- */}
       {selectedArt && (
