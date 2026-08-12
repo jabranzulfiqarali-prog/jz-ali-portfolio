@@ -1380,10 +1380,6 @@ export default function PortfolioSite() {
       <section id="hero" className="relative z-10 min-h-screen flex items-center">
         <div className="max-w-7xl mx-auto px-6 lg:px-10 pt-24 pb-16 w-full">
           <div className="max-w-2xl animate-fadeUp">
-            <div className="flex items-center gap-2 mb-6 text-white/70 text-xs tracking-[0.3em] uppercase">
-              <Sparkles size={14} />
-              <span>JZ Ali</span>
-            </div>
             <h1 className="serif-heading text-5xl sm:text-6xl lg:text-7xl leading-[1.05] text-white mb-6">
               Art that lives
               <br />
@@ -1695,9 +1691,8 @@ export default function PortfolioSite() {
             </div>
           </div>
 
-          <div className="pt-8 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-white/35">
+          <div className="pt-8 border-t border-white/10 flex items-center justify-center gap-4 text-xs text-white/35">
             <p>&copy; {new Date().getFullYear()} JZ Ali. All rights reserved.</p>
-            <p>Prototype design — built with React &amp; Tailwind CSS.</p>
           </div>
         </div>
       </footer>
