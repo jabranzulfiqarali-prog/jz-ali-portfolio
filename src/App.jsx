@@ -411,7 +411,7 @@ const BG_IMAGES = {
 const SECTION_IDS = ["hero", "gallery", "commission", "about", "contact"];
 
 
-const CONTACT_EMAIL = "inquire@jzali.art";
+const CONTACT_EMAIL = "jza@jzalistudio.com";
 
 // Sorted strictly alphabetically by country name
 const COUNTRY_CODES = [
