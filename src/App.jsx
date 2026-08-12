@@ -813,8 +813,8 @@ function CountryCodeSelect({ value, onChange }) {
     const handleOutside = (e) => {
       if (wrapRef.current && !wrapRef.current.contains(e.target)) setOpen(false);
     };
-    document.addEventListener("mousedown", handleOutside);
-    return () => document.removeEventListener("mousedown", handleOutside);
+    document.addEventListener("pointerdown", handleOutside);
+    return () => document.removeEventListener("pointerdown", handleOutside);
   }, []);
 
   return (
@@ -938,7 +938,7 @@ function GalleryCard({ art, height, fixedWidth, onOpen }) {
               e.stopPropagation();
               onOpen(art);
             }}
-            className="inline-flex items-center gap-1.5 border border-white/40 text-white text-[10px] tracking-[0.15em] uppercase px-3 py-2 opacity-0 group-hover:opacity-100 hover:bg-white hover:text-black transition-all duration-300"
+            className="inline-flex items-center gap-1.5 border border-white/40 text-white text-[10px] tracking-[0.15em] uppercase px-3 py-2 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 hover:bg-white hover:text-black transition-all duration-300"
           >
             <Eye size={12} /> Quick View
           </button>
@@ -1013,7 +1013,7 @@ function ArtworkInspector({ art, onClose, onPrev, onNext, onAddToCart }) {
       >
         <button
           onClick={onClose}
-          className="absolute top-4 right-4 z-10 w-9 h-9 flex items-center justify-center bg-black/80 border border-white/20 hover:border-white transition-colors"
+          className="absolute top-4 right-4 z-10 w-11 h-11 sm:w-9 sm:h-9 flex items-center justify-center bg-black/80 border border-white/20 hover:border-white transition-colors"
         >
           <X size={16} className="text-white" />
         </button>
@@ -1043,7 +1043,7 @@ function ArtworkInspector({ art, onClose, onPrev, onNext, onAddToCart }) {
                 backgroundRepeat: "no-repeat",
               }}
             />
-            <span className="absolute top-4 right-4 text-white/40 text-[10px] tracking-[0.15em] uppercase flex items-center gap-1.5">
+            <span className="hidden sm:flex absolute top-4 right-4 text-white/40 text-[10px] tracking-[0.15em] uppercase items-center gap-1.5">
               <ZoomIn size={12} /> Hover to inspect
             </span>
           </div>
@@ -1076,7 +1076,7 @@ function ArtworkInspector({ art, onClose, onPrev, onNext, onAddToCart }) {
         </div>
 
         {/* details */}
-        <div className="p-8 sm:p-10 flex flex-col">
+        <div className="p-6 sm:p-10 flex flex-col">
           <span className="text-white/50 text-xs tracking-[0.25em] uppercase mb-2">
             {art.category} &middot; {art.year}
           </span>
@@ -1515,7 +1515,8 @@ export default function PortfolioSite() {
               ))}
             </div>
             <p className="text-center text-white/30 text-[11px] tracking-[0.2em] uppercase mt-2">
-              Hover to pause &middot; Drag to browse
+              <span className="sm:hidden">Swipe to browse</span>
+              <span className="hidden sm:inline">Hover to pause &middot; Drag to browse</span>
             </p>
           </div>
         )}
@@ -1546,7 +1547,7 @@ export default function PortfolioSite() {
             ))}
           </div>
 
-          <div className="max-w-3xl mx-auto bg-black/50 border border-white/15 backdrop-blur-md p-8 sm:p-10">
+          <div className="max-w-3xl mx-auto bg-black/50 border border-white/15 backdrop-blur-md p-6 sm:p-10">
             {formStatus === "done" ? (
               <div className="text-center py-10">
                 <div className="w-14 h-14 mx-auto mb-5 rounded-full border border-white/30 flex items-center justify-center">
@@ -1606,9 +1607,12 @@ export default function PortfolioSite() {
 
                 <div>
                   <label className="block text-xs tracking-[0.15em] uppercase text-white/60 mb-2">Reference Images (optional)</label>
-                  <div className="border border-dashed border-white/25 hover:border-white/60 transition-colors duration-300 rounded-sm p-8 text-center cursor-pointer">
+                  <div className="border border-dashed border-white/25 hover:border-white/60 transition-colors duration-300 rounded-sm p-6 sm:p-8 text-center cursor-pointer">
                     <Upload size={20} className="mx-auto mb-3 text-white/70" />
-                    <p className="text-sm text-white/60">Drag files here or click to browse</p>
+                    <p className="text-sm text-white/60">
+                      <span className="sm:hidden">Tap to add photos</span>
+                      <span className="hidden sm:inline">Drag files here or click to browse</span>
+                    </p>
                     <p className="text-xs text-white/30 mt-1">PNG, JPG up to 10MB</p>
                   </div>
                 </div>
@@ -1751,11 +1755,11 @@ export default function PortfolioSite() {
                       <p className="text-xs text-white/40 mb-2">{item.medium}</p>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center border border-white/20">
-                          <button onClick={() => updateQty(item.id, -1)} className="w-7 h-7 flex items-center justify-center hover:bg-white/10 text-white/70">
+                          <button onClick={() => updateQty(item.id, -1)} className="w-8 h-8 flex items-center justify-center hover:bg-white/10 text-white/70">
                             <Minus size={12} />
                           </button>
                           <span className="w-8 text-center text-sm text-white">{item.qty}</span>
-                          <button onClick={() => updateQty(item.id, 1)} className="w-7 h-7 flex items-center justify-center hover:bg-white/10 text-white/70">
+                          <button onClick={() => updateQty(item.id, 1)} className="w-8 h-8 flex items-center justify-center hover:bg-white/10 text-white/70">
                             <Plus size={12} />
                           </button>
                         </div>
