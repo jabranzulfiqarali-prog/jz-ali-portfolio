@@ -1156,7 +1156,7 @@ function RevealItem({ children, index = 0 }) {
 // -----------------------------
 const GALLERY_CARD_HEIGHTS = [420, 500, 460, 540, 400, 480];
 
-function GalleryPage({ artworks, filter, setFilter, onOpen, onBack }) {
+function GalleryPage({ artworks, filter, setFilter, onOpen, onBack, onCommission }) {
   const [headerRef, headerShown] = useRevealOnScroll();
 
   useEffect(() => {
@@ -1179,10 +1179,10 @@ function GalleryPage({ artworks, filter, setFilter, onOpen, onBack }) {
         />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-6 lg:px-10 pt-28 sm:pt-36 pb-28">
-        <button
-          onClick={onBack}
-          className="inline-flex items-center gap-2 text-white/50 hover:text-white text-xs tracking-[0.2em] uppercase mb-12 transition-colors duration-300 group"
+        <div className="relative z-10 max-w-7xl mx-auto px-5 sm:px-6 lg:px-10 pt-24 sm:pt-36 pb-20 sm:pb-28">
+          <button
+            onClick={onBack}
+          className="inline-flex items-center gap-2 text-white/50 hover:text-white text-xs tracking-[0.2em] uppercase mb-8 sm:mb-12 transition-colors duration-300 group py-1 -my-1"
         >
           <ArrowRight size={13} className="rotate-180 group-hover:-translate-x-1 transition-transform" />
           Back to Home
@@ -1190,24 +1190,24 @@ function GalleryPage({ artworks, filter, setFilter, onOpen, onBack }) {
 
         <div
           ref={headerRef}
-          className={`text-center max-w-2xl mx-auto mb-16 transition-all duration-700 ease-out ${
+          className={`text-center max-w-2xl mx-auto mb-10 sm:mb-16 transition-all duration-700 ease-out ${
             headerShown ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
           }`}
         >
           <span className="text-white/50 text-xs tracking-[0.3em] uppercase">The Complete Collection</span>
-          <h1 className="serif-heading text-5xl sm:text-6xl lg:text-7xl text-white mt-4 leading-[1.05]">The Gallery</h1>
-          <p className="text-white/50 font-light leading-relaxed mt-6 max-w-lg mx-auto">
+          <h1 className="serif-heading text-4xl sm:text-6xl lg:text-7xl text-white mt-4 leading-[1.05]">The Gallery</h1>
+          <p className="text-white/50 font-light leading-relaxed mt-5 sm:mt-6 max-w-lg mx-auto text-sm sm:text-base px-2 sm:px-0">
             Every original painting and limited-edition print, in one place — from monochrome figure studies to
             gold-leaf still lifes. Click a piece to inspect it closely.
           </p>
         </div>
 
-        <div className="flex flex-wrap justify-center gap-2 mb-16">
+        <div className="flex sm:flex-wrap sm:justify-center gap-2 mb-10 sm:mb-16 overflow-x-auto sm:overflow-visible -mx-5 px-5 sm:mx-0 sm:px-0 pb-1 sm:pb-0 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
           {FILTERS.map((f) => (
             <button
               key={f}
               onClick={() => setFilter(f)}
-              className={`px-5 py-2 text-xs tracking-[0.15em] uppercase rounded-full border transition-all duration-300 ${
+              className={`shrink-0 px-4 sm:px-5 py-2.5 sm:py-2 text-xs tracking-[0.15em] uppercase rounded-full border transition-all duration-300 ${
                 filter === f ? "bg-white text-black border-white" : "border-white/20 text-white/60 hover:border-white/60 hover:text-white"
               }`}
             >
@@ -1219,10 +1219,10 @@ function GalleryPage({ artworks, filter, setFilter, onOpen, onBack }) {
         {artworks.length === 0 ? (
           <p className="text-center text-white/50 py-24">No pieces match this filter yet.</p>
         ) : (
-          <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 [column-fill:_balance]">
+          <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 sm:gap-6 [column-fill:_balance]">
             {artworks.map((art, i) => (
               <RevealItem key={art.id} index={i}>
-                <div className="mb-6 break-inside-avoid">
+                <div className="mb-4 sm:mb-6 break-inside-avoid">
                   <GalleryCard art={art} onOpen={onOpen} height={GALLERY_CARD_HEIGHTS[i % GALLERY_CARD_HEIGHTS.length]} />
                 </div>
               </RevealItem>
@@ -1230,11 +1230,11 @@ function GalleryPage({ artworks, filter, setFilter, onOpen, onBack }) {
           </div>
         )}
 
-        <div className="mt-24 pt-10 border-t border-white/10 flex flex-col items-center gap-4 text-center">
+        <div className="mt-16 sm:mt-24 pt-10 border-t border-white/10 flex flex-col items-center gap-4 text-center">
           <p className="text-white/40 text-sm font-light">Looking for something made just for you?</p>
           <button
-            onClick={onBack}
-            className="inline-flex items-center gap-2 border border-white/40 text-white px-8 py-3.5 text-xs tracking-[0.2em] uppercase font-medium hover:border-white hover:bg-white/5 transition-all duration-300"
+            onClick={onCommission}
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-white/40 text-white px-8 py-3.5 text-xs tracking-[0.2em] uppercase font-medium hover:border-white hover:bg-white/5 transition-all duration-300"
           >
             Enquire About a Commission
           </button>
@@ -1771,6 +1771,7 @@ export default function PortfolioSite() {
           setFilter={setFilter}
           onOpen={openLightbox}
           onBack={() => navigate("/", "home")}
+          onCommission={() => setCommissionOpen(true)}
         />
       )}
 
