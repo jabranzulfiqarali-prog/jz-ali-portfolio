@@ -22,7 +22,6 @@ import {
   Award,
   CheckCircle2,
   Heart,
-  Link2,
 } from "lucide-react";
 
 // -----------------------------
@@ -967,24 +966,11 @@ function ArtworkInspector({ art, onClose, onPrev, onNext, onAddToCart }) {
   const [zooming, setZooming] = useState(false);
   const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 });
   const [activeImg, setActiveImg] = useState(0);
-  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     setZooming(false);
     setActiveImg(0);
-    setCopied(false);
   }, [art?.id]);
-
-  const copyLink = async () => {
-    const url = `${window.location.origin}${artworkPath(art)}`;
-    try {
-      await navigator.clipboard.writeText(url);
-    } catch {
-      window.prompt("Copy this link:", url);
-    }
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-  };
 
   useEffect(() => {
     const handler = (e) => {
@@ -1121,12 +1107,6 @@ function ArtworkInspector({ art, onClose, onPrev, onNext, onAddToCart }) {
 
           <div className="flex items-center justify-between pt-6 border-t border-white/10 mb-4">
             <p className="serif-heading text-2xl text-white">{art.sold ? "Sold" : currency(art.price)}</p>
-            <button
-              onClick={copyLink}
-              className="inline-flex items-center gap-1.5 text-white/50 hover:text-white text-xs tracking-[0.12em] uppercase transition-colors"
-            >
-              <Link2 size={13} /> {copied ? "Link Copied" : "Copy Link"}
-            </button>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
             <a
