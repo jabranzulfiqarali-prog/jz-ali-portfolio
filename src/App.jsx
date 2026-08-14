@@ -22,6 +22,7 @@ import {
   Award,
   CheckCircle2,
   Heart,
+  Link2,
 } from "lucide-react";
 
 // -----------------------------
@@ -410,6 +411,16 @@ const BG_IMAGES = {
 };
 const SECTION_IDS = ["hero", "gallery", "about", "contact"];
 
+// Turns an artwork title into a clean, shareable URL slug, e.g.
+// "Golden Hour Study No. 3" -> "golden-hour-study-no-3"
+const slugify = (title) =>
+  title
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-+|-+$/g, "");
+
+const artworkPath = (art) => `/painting/${slugify(art.title)}`;
 
 const CONTACT_EMAIL = "jza@jzalistudio.com";
 
@@ -956,11 +967,24 @@ function ArtworkInspector({ art, onClose, onPrev, onNext, onAddToCart }) {
   const [zooming, setZooming] = useState(false);
   const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 });
   const [activeImg, setActiveImg] = useState(0);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     setZooming(false);
     setActiveImg(0);
+    setCopied(false);
   }, [art?.id]);
+
+  const copyLink = async () => {
+    const url = `${window.location.origin}${artworkPath(art)}`;
+    try {
+      await navigator.clipboard.writeText(url);
+    } catch {
+      window.prompt("Copy this link:", url);
+    }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   useEffect(() => {
     const handler = (e) => {
@@ -1097,6 +1121,12 @@ function ArtworkInspector({ art, onClose, onPrev, onNext, onAddToCart }) {
 
           <div className="flex items-center justify-between pt-6 border-t border-white/10 mb-4">
             <p className="serif-heading text-2xl text-white">{art.sold ? "Sold" : currency(art.price)}</p>
+            <button
+              onClick={copyLink}
+              className="inline-flex items-center gap-1.5 text-white/50 hover:text-white text-xs tracking-[0.12em] uppercase transition-colors"
+            >
+              <Link2 size={13} /> {copied ? "Link Copied" : "Copy Link"}
+            </button>
           </div>
           <div className="flex flex-col sm:flex-row gap-3">
             <a
@@ -1247,7 +1277,12 @@ function GalleryPage({ artworks, filter, setFilter, onOpen, onBack, onCommission
 export default function PortfolioSite() {
   const [filter, setFilter] = useState("All Works");
   const [galleryView, setGalleryView] = useState("slide"); // "slide" | "grid"
-  const [selectedId, setSelectedId] = useState(null);
+  const [selectedId, setSelectedId] = useState(() => {
+    const m = window.location.pathname.match(new RegExp("^/painting/([^/]+)$"));
+    if (!m) return null;
+    const art = ARTWORKS.find((a) => slugify(a.title) === m[1]);
+    return art ? art.id : null;
+  });
   const [cart, setCart] = useState([]);
   const [cartOpen, setCartOpen] = useState(false);
   const [commissionOpen, setCommissionOpen] = useState(false);
@@ -1268,6 +1303,13 @@ export default function PortfolioSite() {
   useEffect(() => {
     const onPopState = () => {
       setView(window.location.pathname.startsWith("/gallery") ? "gallery" : "home");
+      const m = window.location.pathname.match(new RegExp("^/painting/([^/]+)$"));
+      if (m) {
+        const art = ARTWORKS.find((a) => slugify(a.title) === m[1]);
+        setSelectedId(art ? art.id : null);
+      } else {
+        setSelectedId(null);
+      }
     };
     window.addEventListener("popstate", onPopState);
     return () => window.removeEventListener("popstate", onPopState);
@@ -1376,18 +1418,43 @@ export default function PortfolioSite() {
   const selectedIndex = useMemo(() => filteredArt.findIndex((a) => a.id === selectedId), [filteredArt, selectedId]);
   const selectedArt = selectedIndex >= 0 ? filteredArt[selectedIndex] : null;
 
-  const openLightbox = (art) => setSelectedId(art.id);
-  const closeLightbox = () => setSelectedId(null);
+  // Give every painting its own shareable URL, e.g. /painting/undercurrent.
+  // Opening pushes a new history entry (so Back closes it and returns to the
+  // page underneath); stepping through Next/Prev swaps the URL in place;
+  // closing pushes back to the underlying page.
+  const openLightbox = (art) => {
+    setSelectedId(art.id);
+    window.history.pushState({}, "", artworkPath(art));
+  };
+  const closeLightbox = () => {
+    setSelectedId(null);
+    window.history.pushState({}, "", view === "gallery" ? "/gallery" : "/");
+  };
   const goNext = () => {
     if (filteredArt.length === 0) return;
     const next = (selectedIndex + 1 + filteredArt.length) % filteredArt.length;
-    setSelectedId(filteredArt[next].id);
+    const art = filteredArt[next];
+    setSelectedId(art.id);
+    window.history.replaceState({}, "", artworkPath(art));
   };
   const goPrev = () => {
     if (filteredArt.length === 0) return;
     const prev = (selectedIndex - 1 + filteredArt.length) % filteredArt.length;
-    setSelectedId(filteredArt[prev].id);
+    const art = filteredArt[prev];
+    setSelectedId(art.id);
+    window.history.replaceState({}, "", artworkPath(art));
   };
+
+  // Keep the browser tab title in sync with whatever painting is open
+  useEffect(() => {
+    if (selectedArt) {
+      document.title = `${selectedArt.title} | JZ Ali`;
+    } else if (view === "gallery") {
+      document.title = "The Collection | JZ Ali";
+    } else {
+      document.title = "JZ Ali | Original Paintings";
+    }
+  }, [selectedArt, view]);
 
   const addToCart = (art) => {
     if (art.sold) return;
