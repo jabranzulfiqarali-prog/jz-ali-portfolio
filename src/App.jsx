@@ -373,21 +373,6 @@ const ARTWORKS = [
     story:
       "The most process-driven piece in the collection, built from raw gold leaf worked into dark pigment, applied and partially scraped back over several weeks of returning to the same canvas. Undercurrent isn't a fixed image so much as a record of the studio hours spent making it — every scrape and reapplication left visible rather than smoothed away. The artist says he doesn't fully know what it's for, only what it took to make. Sometimes the process is the subject.",
   },
-  {
-    id: 24,
-    title: "Bloom",
-    category: "Monochrome Oils",
-    price: 3900,
-    medium: "Oil on canvas",
-    dimensions: '40" x 50"',
-    year: 2025,
-    sold: false,
-    img: "/images/art24-img.jpg",
-    detailImg1: "/images/art24-detailImg1.jpg",
-    detailImg2: "/images/art24-detailImg2.jpg",
-    story:
-      "A late-summer sitting that started with an armful of sunflowers from the studio garden and no real plan beyond seeing what happened. Bloom took shape slowly — the artist adding flowers a few at a time, letting them settle into the pose rather than arranging them, until the composition felt less staged than grown. It sits closer to botanical study than portrait, in the same quiet tradition as the flower painters he grew up admiring. The stillness in it isn't posed; it's the actual stillness of someone who forgot, for an afternoon, that she was being watched.",
-  },
 ];
 
 const FILTERS = ["All Works", "Monochrome Oils", "Charcoal Studies", "Limited Prints", "Acrylic Paintings", "Still Life & Interiors", "Sold"];
