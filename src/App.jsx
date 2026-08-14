@@ -1601,23 +1601,8 @@ export default function PortfolioSite() {
             </div>
           </div>
 
-          {/* category filters */}
-          <div className="flex flex-wrap items-center justify-between gap-4">
-            <div className="flex flex-wrap gap-2">
-              {FILTERS.map((f) => (
-                <button
-                  key={f}
-                  onClick={() => setFilter(f)}
-                  className={`px-5 py-2 text-xs tracking-[0.15em] uppercase rounded-full border transition-all duration-300 ${
-                    filter === f ? "bg-white text-black border-white" : "border-white/20 text-white/60 hover:border-white/60 hover:text-white"
-                  }`}
-                >
-                  {f}
-                </button>
-              ))}
-            </div>
-
-            {/* view mode toggle: Slide (auto-moving) vs Grid (static) */}
+          {/* view mode toggle: Slide (auto-moving) vs Grid (static) */}
+          <div className="flex justify-end">
             <div className="flex items-center border border-white/20 rounded-full p-1 gap-1">
               <button
                 onClick={() => setGalleryView("slide")}
