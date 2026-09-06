@@ -37,6 +37,7 @@ const ARTWORKS = [
     dimensions: '48" x 60"',
     year: 2025,
     sold: false,
+signature: "gold",
     img: "/images/art01-img.jpg",
     detailImg1: "/images/art01-detailImg1.jpg",
     detailImg2: "/images/art01-detailImg2.jpg",
@@ -52,6 +53,7 @@ const ARTWORKS = [
     dimensions: '24" x 32"',
     year: 2025,
     sold: false,
+signature: "gold",
     img: "/images/art02-img.jpg",
     detailImg1: "/images/art02-detailImg1.jpg",
     detailImg2: "/images/art02-detailImg2.jpg",
@@ -67,6 +69,7 @@ const ARTWORKS = [
     dimensions: '40" x 40"',
     year: 2024,
     sold: true,
+signature: "cream",
     img: "/images/art03-img.jpg",
     detailImg1: "/images/art03-detailImg1.jpg",
     detailImg2: "/images/art03-detailImg2.jpg",
@@ -82,6 +85,7 @@ const ARTWORKS = [
     dimensions: '18" x 24"',
     year: 2025,
     sold: false,
+signature: "umber",
     img: "/images/art04-img.jpg",
     detailImg1: "/images/art04-detailImg1.jpg",
     detailImg2: "/images/art04-detailImg2.jpg",
@@ -97,6 +101,7 @@ const ARTWORKS = [
     dimensions: '36" x 48"',
     year: 2026,
     sold: false,
+signature: "gold",
     img: "/images/art05-img.jpg",
     detailImg1: "/images/art05-detailImg1.jpg",
     detailImg2: "/images/art05-detailImg2.jpg",
@@ -112,6 +117,7 @@ const ARTWORKS = [
     dimensions: '30" x 40"',
     year: 2021,
     sold: true,
+signature: "charcoal",
     img: "/images/art06-img.jpg",
     detailImg1: "/images/art06-detailImg1.jpg",
     detailImg2: "/images/art06-detailImg2.jpg",
@@ -127,6 +133,7 @@ const ARTWORKS = [
     dimensions: '24" x 32"',
     year: 2025,
     sold: false,
+signature: "gold",
     img: "/images/art07-img.jpg",
     detailImg1: "/images/art07-detailImg1.jpg",
     detailImg2: "/images/art07-detailImg2.jpg",
@@ -142,6 +149,7 @@ const ARTWORKS = [
     dimensions: '44" x 44"',
     year: 2026,
     sold: false,
+signature: "charcoal",
     img: "/images/art08-img.jpg",
     detailImg1: "/images/art08-detailImg1.jpg",
     detailImg2: "/images/art08-detailImg2.jpg",
@@ -157,6 +165,7 @@ const ARTWORKS = [
     dimensions: '40" x 30"',
     year: 2025,
     sold: false,
+signature: "umber",
     img: "/images/art09-img.jpg",
     detailImg1: "/images/art09-detailImg1.jpg",
     detailImg2: "/images/art09-detailImg2.jpg",
@@ -172,6 +181,7 @@ const ARTWORKS = [
     dimensions: '36" x 24"',
     year: 2025,
     sold: true,
+signature: "slateblue",
     img: "/images/art10-img.jpg",
     detailImg1: "/images/art10-detailImg1.jpg",
     detailImg2: "/images/art10-detailImg2.jpg",
@@ -187,6 +197,7 @@ const ARTWORKS = [
     dimensions: '24" x 30"',
     year: 2025,
     sold: false,
+signature: "umber",
     img: "/images/art11-img.jpg",
     detailImg1: "/images/art11-detailImg1.jpg",
     detailImg2: "/images/art11-detailImg2.jpg",
@@ -202,6 +213,7 @@ const ARTWORKS = [
     dimensions: '32" x 40"',
     year: 2025,
     sold: true,
+signature: "slateblue",
     img: "/images/art12-img.jpg",
     detailImg1: "/images/art12-detailImg1.jpg",
     detailImg2: "/images/art12-detailImg2.jpg",
@@ -217,6 +229,7 @@ const ARTWORKS = [
     dimensions: '40" x 40"',
     year: 2025,
     sold: false,
+signature: "cream",
     img: "/images/art13-img.jpg",
     detailImg1: "/images/art13-detailImg1.jpg",
     detailImg2: "/images/art13-detailImg2.jpg",
@@ -232,6 +245,7 @@ const ARTWORKS = [
     dimensions: '24" x 30"',
     year: 2025,
     sold: true,
+signature: "umber",
     img: "/images/art14-img.jpg",
     detailImg1: "/images/art14-detailImg1.jpg",
     detailImg2: "/images/art14-detailImg2.jpg",
@@ -247,6 +261,7 @@ const ARTWORKS = [
     dimensions: '36" x 45"',
     year: 2025,
     sold: false,
+signature: "cream",
     img: "/images/art15-img.jpg",
     detailImg1: "/images/art15-detailImg1.jpg",
     detailImg2: "/images/art15-detailImg2.jpg",
@@ -262,6 +277,7 @@ const ARTWORKS = [
     dimensions: '32" x 40"',
     year: 2025,
     sold: false,
+signature: "cream",
     img: "/images/art16-img.jpg",
     detailImg1: "/images/art16-detailImg1.jpg",
     detailImg2: "/images/art16-detailImg2.jpg",
@@ -277,6 +293,7 @@ const ARTWORKS = [
     dimensions: '20" x 25"',
     year: 2025,
     sold: false,
+signature: "charcoal",
     img: "/images/art17-img.jpg",
     detailImg1: "/images/art17-detailImg1.jpg",
     detailImg2: "/images/art17-detailImg2.jpg",
@@ -292,6 +309,7 @@ const ARTWORKS = [
     dimensions: '24" x 30"',
     year: 2025,
     sold: false,
+signature: "gold",
     img: "/images/art18-img.jpg",
     detailImg1: "/images/art18-detailImg1.jpg",
     detailImg2: "/images/art18-detailImg2.jpg",
@@ -307,6 +325,7 @@ const ARTWORKS = [
     dimensions: '40" x 50"',
     year: 2025,
     sold: false,
+signature: "gold",
     img: "/images/art19-img.jpg",
     detailImg1: "/images/art19-detailImg1.jpg",
     detailImg2: "/images/art19-detailImg2.jpg",
@@ -322,6 +341,7 @@ const ARTWORKS = [
     dimensions: '36" x 45"',
     year: 2025,
     sold: false,
+signature: "cream",
     img: "/images/art20-img.jpg",
     detailImg1: "/images/art20-detailImg1.jpg",
     detailImg2: "/images/art20-detailImg2.jpg",
@@ -337,6 +357,7 @@ const ARTWORKS = [
     dimensions: '24" x 30"',
     year: 2025,
     sold: false,
+signature: "gold",
     img: "/images/art21-img.jpg",
     detailImg1: "/images/art21-detailImg1.jpg",
     detailImg2: "/images/art21-detailImg2.jpg",
@@ -352,6 +373,7 @@ const ARTWORKS = [
     dimensions: '28" x 35"',
     year: 2025,
     sold: true,
+signature: "charcoal",
     img: "/images/art22-img.jpg",
     detailImg1: "/images/art22-detailImg1.jpg",
     detailImg2: "/images/art22-detailImg2.jpg",
@@ -367,6 +389,7 @@ const ARTWORKS = [
     dimensions: '28" x 35"',
     year: 2025,
     sold: false,
+signature: "slateblue",
     img: "/images/art23-img.jpg",
     detailImg1: "/images/art23-detailImg1.jpg",
     detailImg2: "/images/art23-detailImg2.jpg",
@@ -382,6 +405,7 @@ const ARTWORKS = [
     dimensions: '24" x 30"',
     year: 2026,
     sold: false,
+signature: "slateblue",
     img: "/images/art24-img.jpg",
     detailImg1: "/images/art24-detailImg1.jpg",
     detailImg2: "/images/art24-detailImg2.jpg",
@@ -397,6 +421,7 @@ const ARTWORKS = [
     dimensions: '24" x 30"',
     year: 2026,
     sold: false,
+signature: "gold",
     img: "/images/art25-img.jpg",
     detailImg1: "/images/art25-detailImg1.jpg",
     detailImg2: "/images/art25-detailImg2.jpg",
@@ -412,6 +437,7 @@ const ARTWORKS = [
     dimensions: '18" x 24"',
     year: 2026,
     sold: false,
+signature: "cream",
     img: "/images/art26-img.jpg",
     detailImg1: "/images/art26-detailImg1.jpg",
     detailImg2: "/images/art26-detailImg2.jpg",
@@ -427,6 +453,7 @@ const ARTWORKS = [
     dimensions: '30" x 24"',
     year: 2026,
     sold: false,
+signature: "umber",
     img: "/images/art27-img.jpg",
     detailImg1: "/images/art27-detailImg1.jpg",
     detailImg2: "/images/art27-detailImg2.jpg",
@@ -976,6 +1003,14 @@ function GalleryCard({ art, height, fixedWidth, onOpen }) {
         className="absolute inset-0 w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
       />
 
+      {art.signature && (
+        <img
+          src={`/images/signature-${art.signature}.png`}
+          alt=""
+          className="absolute bottom-2 right-3 w-14 sm:w-16 opacity-80 pointer-events-none select-none z-10"
+        />
+      )}
+
       {/* cursor spotlight */}
       <div
         className="absolute inset-0 pointer-events-none transition-opacity duration-300"
@@ -1105,6 +1140,13 @@ function ArtworkInspector({ art, onClose, onPrev, onNext, onAddToCart }) {
             onMouseMove={handleImgMove}
           >
             <SafeImage src={images[activeImg]} alt={art.title} label={art.title} className="w-full h-full object-cover" />
+            {activeImg === 0 && art.signature && (
+              <img
+                src={`/images/signature-${art.signature}.png`}
+                alt=""
+                className="absolute bottom-3 right-4 sm:bottom-5 sm:right-6 w-20 sm:w-28 opacity-80 pointer-events-none select-none"
+              />
+            )}
             <div
               className="hidden sm:block absolute w-48 h-48 rounded-full border-2 border-white/80 shadow-2xl pointer-events-none transition-opacity duration-150 ease-out ring-1 ring-black/40"
               style={{
