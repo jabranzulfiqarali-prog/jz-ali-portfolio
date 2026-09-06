@@ -373,9 +373,69 @@ const ARTWORKS = [
     story:
       "The most process-driven piece in the collection, built from raw gold leaf worked into dark pigment, applied and partially scraped back over several weeks of returning to the same canvas. Undercurrent isn't a fixed image so much as a record of the studio hours spent making it — every scrape and reapplication left visible rather than smoothed away. The artist says he doesn't fully know what it's for, only what it took to make. Sometimes the process is the subject.",
   },
+  {
+    id: 24,
+    title: "Velvet Dusk",
+    category: "Contemporary Originals",
+    price: 2400,
+    medium: "Oil on canvas",
+    dimensions: '24" x 30"',
+    year: 2026,
+    sold: false,
+    img: "/images/art24-img.jpg",
+    detailImg1: "/images/art24-detailImg1.jpg",
+    detailImg2: "/images/art24-detailImg2.jpg",
+    story:
+      "The artist has always been drawn to the ten minutes after the streetlights come on but before the sky goes fully dark, when a city looks lit from within. Velvet Dusk was painted almost entirely from memory, built up in translucent layers of blue and violet with strokes of warm gold and rose left to bleed at the edges like reflections on wet asphalt. It's an imagined skyline, not a real one — assembled from a dozen different evenings rather than any single place.",
+  },
+  {
+    id: 25,
+    title: "Amber Tide",
+    category: "Contemporary Originals",
+    price: 2100,
+    medium: "Oil on canvas",
+    dimensions: '24" x 30"',
+    year: 2026,
+    sold: false,
+    img: "/images/art25-img.jpg",
+    detailImg1: "/images/art25-detailImg1.jpg",
+    detailImg2: "/images/art25-detailImg2.jpg",
+    story:
+      "He grew up an hour from the coast and still can't fully explain what a breaking wave does to him. Amber Tide was built with a palette knife instead of a brush for most of its surface, laying the paint on thick enough that the crest physically catches the light in whatever room it hangs in. The gold at its center isn't quite sunrise and isn't quite sunset — the artist prefers to leave that unresolved. What matters is the instant just before the wave breaks, held a little longer than it should be.",
+  },
+  {
+    id: 26,
+    title: "Quiet Grace",
+    category: "Acrylic Paintings",
+    price: 1350,
+    medium: "Acrylic on paper",
+    dimensions: '18" x 24"',
+    year: 2026,
+    sold: false,
+    img: "/images/art26-img.jpg",
+    detailImg1: "/images/art26-detailImg1.jpg",
+    detailImg2: "/images/art26-detailImg2.jpg",
+    story:
+      "Some pieces take months. This one took an afternoon, and the artist has never quite been able to repeat whatever happened in those few hours. Quiet Grace is built from loose, fast gestures — a figure caught mid-turn, more suggestion than description, painted wet-into-wet before the earlier layers could set. It's smaller and quieter than most of what's around it in the studio, and that's exactly why it belongs. Not every painting needs to raise its voice to be remembered.",
+  },
+  {
+    id: 27,
+    title: "Flight Without Wings",
+    category: "Contemporary Originals",
+    price: 3200,
+    medium: "Oil on canvas",
+    dimensions: '30" x 24"',
+    year: 2026,
+    sold: false,
+    img: "/images/art27-img.jpg",
+    detailImg1: "/images/art27-detailImg1.jpg",
+    detailImg2: "/images/art27-detailImg2.jpg",
+    story:
+      "The horse was already running before the artist lifted the brush, so the whole painting had to be built to keep up with it. Flight Without Wings uses broad, urgent strokes of ochre and burnt umber laid down almost too fast to fully control, chasing the blur of a gallop rather than describing it stroke by stroke. It grew out of a series of quick studies made at a ranch at dawn, while the light was still low and the dust hadn't settled. It's the most physically demanding piece in the studio to paint, and it shows.",
+  },
 ];
 
-const FILTERS = ["All Works", "Monochrome Oils", "Charcoal Studies", "Limited Prints", "Acrylic Paintings", "Still Life & Interiors", "Sold"];
+const FILTERS = ["All Works", "Monochrome Oils", "Charcoal Studies", "Limited Prints", "Acrylic Paintings", "Still Life & Interiors", "Contemporary Originals", "Sold"];
 
 const PROCESS_STEPS = [
   {
