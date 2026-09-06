@@ -1805,7 +1805,7 @@ export default function PortfolioSite() {
             <span className="text-white/50 text-xs tracking-[0.3em] uppercase">About the Artist</span>
             <h2 className="serif-heading text-4xl sm:text-5xl text-white mt-3 mb-6">JZ Ali</h2>
             <p className="text-white/60 leading-relaxed font-light mb-5">
-              JZ Ali is a self-taught painter based in Toronto, Canada, working primarily in oil, acrylic, and charcoal, known for his atmospheric studies of the human figure and horses in motion. Over six years of practice, his work has been exhibited across two countries and held in over 100 private collections worldwide.
+              JZ Ali is a self-taught painter based in Toronto, Canada, working primarily in oil, acrylic, and charcoal, known for his atmospheric studies of light, movement, and stillness across a wide range of subjects. Over six years of practice, his work has been exhibited across two countries and held in over 100 private collections worldwide.
             </p>
             <p className="text-white/60 leading-relaxed font-light mb-8">
               "I'm drawn to the moments between things — the pause before a wave breaks, the hush after a room empties. My work is an attempt to hold those moments still, just for a while."
