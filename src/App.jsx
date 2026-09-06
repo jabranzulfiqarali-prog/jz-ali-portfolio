@@ -1027,11 +1027,13 @@ function ArtworkInspector({ art, onClose, onPrev, onNext, onAddToCart }) {
   const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 });
   const [activeImg, setActiveImg] = useState(0);
   const scrollRef = useRef(null);
+  const outerRef = useRef(null);
 
   useEffect(() => {
     setZooming(false);
     setActiveImg(0);
     if (scrollRef.current) scrollRef.current.scrollTop = 0;
+    if (outerRef.current) outerRef.current.scrollTop = 0;
   }, [art?.id]);
 
   useEffect(() => {
@@ -1057,7 +1059,7 @@ function ArtworkInspector({ art, onClose, onPrev, onNext, onAddToCart }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-2 sm:p-6 bg-black/92 backdrop-blur-md" onClick={onClose}>
+    <div ref={outerRef} className="fixed inset-0 z-50 overflow-y-auto flex items-start md:items-center justify-center p-2 sm:p-6 bg-black/92 backdrop-blur-md" onClick={onClose}>
       <button
         onClick={(e) => {
           e.stopPropagation();
@@ -1081,7 +1083,7 @@ function ArtworkInspector({ art, onClose, onPrev, onNext, onAddToCart }) {
 
       <div
         ref={scrollRef}
-        className="relative bg-[#0a0a0a] border border-white/15 max-w-6xl w-full max-h-[92vh] overflow-y-auto grid md:grid-cols-2"
+        className="relative bg-[#0a0a0a] border border-white/15 max-w-6xl w-full my-4 md:my-0 md:max-h-[92vh] md:overflow-y-auto grid md:grid-cols-2"
         onClick={(e) => e.stopPropagation()}
       >
         <button
