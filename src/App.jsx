@@ -1026,10 +1026,12 @@ function ArtworkInspector({ art, onClose, onPrev, onNext, onAddToCart }) {
   const [zooming, setZooming] = useState(false);
   const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 });
   const [activeImg, setActiveImg] = useState(0);
+  const scrollRef = useRef(null);
 
   useEffect(() => {
     setZooming(false);
     setActiveImg(0);
+    if (scrollRef.current) scrollRef.current.scrollTop = 0;
   }, [art?.id]);
 
   useEffect(() => {
@@ -1078,6 +1080,7 @@ function ArtworkInspector({ art, onClose, onPrev, onNext, onAddToCart }) {
       </button>
 
       <div
+        ref={scrollRef}
         className="relative bg-[#0a0a0a] border border-white/15 max-w-6xl w-full max-h-[92vh] overflow-y-auto grid md:grid-cols-2"
         onClick={(e) => e.stopPropagation()}
       >
